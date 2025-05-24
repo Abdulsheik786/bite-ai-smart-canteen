@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,7 @@ import { ShoppingCart, QrCode, Clock, Star, Wallet, BookOpen, Plus, Minus, Filte
 import { useAuth } from '@/contexts/AuthContext';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
+import QRScanner from './QRScanner';
 
 interface MenuItem {
   id: string;
@@ -29,6 +29,7 @@ const StudentDashboard = () => {
   const [cart, setCart] = useState<MenuItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [showQRScanner, setShowQRScanner] = useState(false);
   
   const menuItems: MenuItem[] = [
     {
@@ -194,6 +195,23 @@ const StudentDashboard = () => {
         description: 'Please add money to your wallet',
       });
     }
+  };
+
+  const handleQRPayment = (qrData: string) => {
+    console.log('QR Payment initiated with data:', qrData);
+    
+    if (cart.length === 0) {
+      toast.error('Your cart is empty');
+      return;
+    }
+
+    const total = getTotalPrice();
+    
+    // Simulate QR payment processing
+    toast.success(`QR Payment successful! ₹${total} paid via UPI`, {
+      description: 'Your order is being prepared',
+    });
+    setCart([]);
   };
 
   return (
@@ -456,11 +474,20 @@ const StudentDashboard = () => {
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <Button variant="outline" className="h-12 flex items-center justify-center space-x-2 border-2 border-orange-200 text-orange-600 hover:bg-orange-50">
+                        <Button 
+                          variant="outline" 
+                          onClick={() => setShowQRScanner(true)}
+                          disabled={cart.length === 0}
+                          className="h-12 flex items-center justify-center space-x-2 border-2 border-orange-200 text-orange-600 hover:bg-orange-50"
+                        >
                           <QrCode className="w-5 h-5" />
                           <span className="font-medium">Scan & Pay</span>
                         </Button>
-                        <Button onClick={handlePayment} className="h-12 bg-orange-500 hover:bg-orange-600 flex items-center justify-center space-x-2 text-white">
+                        <Button 
+                          onClick={handlePayment} 
+                          disabled={cart.length === 0}
+                          className="h-12 bg-orange-500 hover:bg-orange-600 flex items-center justify-center space-x-2 text-white"
+                        >
                           <Wallet className="w-5 h-5" />
                           <span className="font-medium">Pay ₹{getTotalPrice()}</span>
                         </Button>
@@ -470,6 +497,14 @@ const StudentDashboard = () => {
                 )}
               </CardContent>
             </Card>
+
+            {/* QR Scanner Dialog */}
+            <QRScanner
+              isOpen={showQRScanner}
+              onClose={() => setShowQRScanner(false)}
+              onSuccess={handleQRPayment}
+              totalAmount={getTotalPrice()}
+            />
           </TabsContent>
           
           <TabsContent value="orders" className="space-y-4">
