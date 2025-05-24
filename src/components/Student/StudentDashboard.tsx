@@ -33,7 +33,7 @@ const StudentDashboard = () => {
       name: 'Royal Veg Thali',
       price: 80,
       category: 'Main Course',
-      image: '🍛',
+      image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=400&h=300&fit=crop&crop=center',
       rating: 4.5,
       description: 'Complete nutritious meal with seasonal vegetables, dal, rice, roti, pickle & dessert',
       available: true,
@@ -45,7 +45,7 @@ const StudentDashboard = () => {
       name: 'Chicken Biryani',
       price: 120,
       category: 'Main Course',
-      image: '🍗',
+      image: 'https://images.unsplash.com/photo-1563379091339-03246963d7d3?w=400&h=300&fit=crop&crop=center',
       rating: 4.8,
       description: 'Aromatic basmati rice layered with tender chicken pieces, served with raita & boiled egg',
       available: true,
@@ -57,7 +57,7 @@ const StudentDashboard = () => {
       name: 'Crispy Masala Dosa',
       price: 60,
       category: 'South Indian',
-      image: '🥞',
+      image: 'https://images.unsplash.com/photo-1630383249896-424e482df921?w=400&h=300&fit=crop&crop=center',
       rating: 4.3,
       description: 'Golden crispy dosa with spiced potato filling, served with coconut chutney & sambar',
       available: true,
@@ -69,7 +69,7 @@ const StudentDashboard = () => {
       name: 'Fresh Lime Mint Cooler',
       price: 25,
       category: 'Beverages',
-      image: '🥤',
+      image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=400&h=300&fit=crop&crop=center',
       rating: 4.1,
       description: 'Refreshing lime drink with fresh mint leaves and a hint of black salt',
       available: true,
@@ -81,7 +81,7 @@ const StudentDashboard = () => {
       name: 'Paneer Butter Masala',
       price: 95,
       category: 'Main Course',
-      image: '🧈',
+      image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?w=400&h=300&fit=crop&crop=center',
       rating: 4.6,
       description: 'Rich and creamy paneer curry with aromatic spices, served with rice or roti',
       available: true,
@@ -93,11 +93,47 @@ const StudentDashboard = () => {
       name: 'Filter Coffee',
       price: 20,
       category: 'Beverages',
-      image: '☕',
+      image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=300&fit=crop&crop=center',
       rating: 4.4,
       description: 'Authentic South Indian filter coffee with perfect blend of coffee and milk',
       available: true,
       preparationTime: '3-5 min',
+      isVeg: true
+    },
+    {
+      id: '7',
+      name: 'Chole Bhature',
+      price: 70,
+      category: 'North Indian',
+      image: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?w=400&h=300&fit=crop&crop=center',
+      rating: 4.4,
+      description: 'Spicy chickpea curry served with fluffy deep-fried bread and pickled onions',
+      available: true,
+      preparationTime: '15-20 min',
+      isVeg: true
+    },
+    {
+      id: '8',
+      name: 'Margherita Pizza',
+      price: 150,
+      category: 'Italian',
+      image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?w=400&h=300&fit=crop&crop=center',
+      rating: 4.2,
+      description: 'Classic Italian pizza with fresh mozzarella, tomato sauce, and basil leaves',
+      available: true,
+      preparationTime: '20-25 min',
+      isVeg: true
+    },
+    {
+      id: '9',
+      name: 'Masala Chai',
+      price: 15,
+      category: 'Beverages',
+      image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=300&fit=crop&crop=center',
+      rating: 4.3,
+      description: 'Traditional Indian spiced tea brewed with aromatic spices and fresh milk',
+      available: true,
+      preparationTime: '5-8 min',
       isVeg: true
     }
   ];
@@ -241,8 +277,12 @@ const StudentDashboard = () => {
               {filteredItems.map((item) => (
                 <Card key={item.id} className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-md overflow-hidden bg-white">
                   <div className="relative">
-                    <div className="h-48 bg-gradient-to-br from-orange-100 to-green-100 flex items-center justify-center">
-                      <span className="text-6xl group-hover:scale-110 transition-transform duration-300">{item.image}</span>
+                    <div className="h-48 overflow-hidden">
+                      <img 
+                        src={item.image} 
+                        alt={item.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                      />
                     </div>
                     <div className="absolute top-4 left-4">
                       <Badge variant={item.isVeg ? "secondary" : "destructive"} className="text-xs font-medium">
@@ -318,8 +358,12 @@ const StudentDashboard = () => {
                     {cart.map((item, index) => (
                       <div key={index} className="flex items-center justify-between p-4 border border-gray-100 rounded-xl hover:shadow-md transition-shadow bg-gray-50/50">
                         <div className="flex items-center space-x-4">
-                          <div className="w-12 h-12 bg-gradient-to-br from-orange-100 to-green-100 rounded-lg flex items-center justify-center">
-                            <span className="text-2xl">{item.image}</span>
+                          <div className="w-16 h-16 rounded-lg overflow-hidden">
+                            <img 
+                              src={item.image} 
+                              alt={item.name}
+                              className="w-full h-full object-cover"
+                            />
                           </div>
                           <div>
                             <h4 className="font-semibold text-gray-800">{item.name}</h4>
